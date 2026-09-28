@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" th:fragment="layout (title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spring Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+
+<header class="bg-blue-700 text-white shadow">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold tracking-tight">Spring Health</a>
+        <nav class="space-x-6 text-sm font-medium">
+            <a href="/" class="hover:text-blue-200 transition-colors">Főoldal</a>
+        </nav>
+    </div>
+</header>
+
+<main class="flex-1 w-full max-w-5xl mx-auto px-4 py-10" th:replace="${content}">
+</main>
+
+<footer class="bg-gray-900 text-gray-400 text-center text-sm py-6">
+    &copy; 2026 Spring Health
+</footer>
+
+</body>
+</html>
