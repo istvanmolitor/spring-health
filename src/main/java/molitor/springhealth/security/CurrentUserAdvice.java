@@ -1,5 +1,6 @@
 package molitor.springhealth.security;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +17,11 @@ public class CurrentUserAdvice {
             return null;
         }
         return authentication.getName();
+    }
+
+    @ModelAttribute("requestURI")
+    public String requestURI(HttpServletRequest request) {
+        return request.getRequestURI();
     }
 
 }
