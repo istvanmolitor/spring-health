@@ -16,11 +16,19 @@
         </a>
     </div>
 
+    <div th:replace="~{fragments/search-form :: searchForm(action='/exercise-groups', q=${q}, sort=${sort}, dir=${dir}, size=${size})}"></div>
+
     <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
         <table class="min-w-full divide-y divide-slate-200 text-sm">
             <thead class="bg-slate-50">
             <tr>
-                <th class="px-4 py-3 text-left font-semibold text-slate-600">Név</th>
+                <th class="px-4 py-3 text-left font-semibold text-slate-600">
+                    <a th:href="@{/exercise-groups(page=0, size=${size}, q=${q}, sort='name', dir=${sort == 'name' and dir == 'asc' ? 'desc' : 'asc'})}"
+                       class="inline-flex items-center gap-1 hover:text-slate-900">
+                        Név
+                        <span th:if="${sort == 'name'}" th:text="${dir == 'asc'} ? '▲' : '▼'"></span>
+                    </a>
+                </th>
                 <th class="px-4 py-3 text-right font-semibold text-slate-600">Műveletek</th>
             </tr>
             </thead>
@@ -36,11 +44,37 @@
                     </form>
                 </td>
             </tr>
-            <tr th:if="${#lists.isEmpty(exerciseGroups)}">
-                <td colspan="2" class="px-4 py-6 text-center text-slate-400">Még nincs felvéve csoport.</td>
+            <tr th:if="${exerciseGroups.empty}">
+                <td colspan="2" class="px-4 py-6 text-center text-slate-400">Nincs a feltételeknek megfelelő csoport.</td>
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between" th:if="${exerciseGroups.totalPages > 0}">
+        <p class="text-sm text-slate-500">
+            <span th:text="${exerciseGroups.totalElements}">0</span> csoport &mdash;
+            <span th:text="${exerciseGroups.number + 1}">1</span>. / <span th:text="${exerciseGroups.totalPages}">1</span> oldal
+        </p>
+        <div class="flex items-center gap-1">
+            <a th:if="${!exerciseGroups.first}"
+               th:href="@{/exercise-groups(page=${exerciseGroups.number - 1}, size=${size}, sort=${sort}, dir=${dir}, q=${q})}"
+               class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-600 hover:bg-slate-50">Előző</a>
+            <span th:unless="${!exerciseGroups.first}"
+                  class="px-3 py-1.5 rounded-lg border border-slate-100 text-sm text-slate-300">Előző</span>
+
+            <a th:each="p : ${#numbers.sequence(0, exerciseGroups.totalPages - 1)}"
+               th:href="@{/exercise-groups(page=${p}, size=${size}, sort=${sort}, dir=${dir}, q=${q})}"
+               th:text="${p + 1}"
+               th:classappend="${p == exerciseGroups.number} ? 'bg-emerald-600 text-white border-emerald-600' : 'text-slate-600 border-slate-200 hover:bg-slate-50'"
+               class="px-3 py-1.5 rounded-lg border text-sm">1</a>
+
+            <a th:if="${!exerciseGroups.last}"
+               th:href="@{/exercise-groups(page=${exerciseGroups.number + 1}, size=${size}, sort=${sort}, dir=${dir}, q=${q})}"
+               class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-600 hover:bg-slate-50">Következő</a>
+            <span th:unless="${!exerciseGroups.last}"
+                  class="px-3 py-1.5 rounded-lg border border-slate-100 text-sm text-slate-300">Következő</span>
+        </div>
     </div>
 </section>
 

@@ -3,6 +3,10 @@ package molitor.springhealth.controller;
 import jakarta.validation.Valid;
 import molitor.springhealth.exercise.ExerciseGroup;
 import molitor.springhealth.exercise.ExerciseGroupRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -25,8 +30,24 @@ public class ExerciseGroupController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("exerciseGroups", exerciseGroupRepository.findAll());
+    public String list(@RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "10") int size,
+                        @RequestParam(defaultValue = "name") String sort,
+                        @RequestParam(defaultValue = "asc") String dir,
+                        @RequestParam(required = false) String q,
+                        Model model) {
+        Sort.Direction direction = "desc".equalsIgnoreCase(dir) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "name"));
+
+        Page<ExerciseGroup> exerciseGroups = (q != null && !q.isBlank())
+                ? exerciseGroupRepository.findByNameContainingIgnoreCase(q.trim(), pageable)
+                : exerciseGroupRepository.findAll(pageable);
+
+        model.addAttribute("exerciseGroups", exerciseGroups);
+        model.addAttribute("q", q);
+        model.addAttribute("sort", sort);
+        model.addAttribute("dir", dir);
+        model.addAttribute("size", size);
         return "exercise-groups/list";
     }
 
