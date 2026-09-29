@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(title='Spring Health - Dashboard', content=~{::section})}">
+<head><title>Spring Health - Dashboard</title></head>
+<body>
+
+<section>
+    <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+    <p>Üdvözlünk, <span th:text="${currentUsername}">felhasználó</span>!</p>
+</section>
+
+</body>
+</html>

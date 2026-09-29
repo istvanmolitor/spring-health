@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: spring-health-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: spring_health
+      MYSQL_USER: spring_health
+      MYSQL_PASSWORD: spring_health
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
