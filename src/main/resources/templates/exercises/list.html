@@ -21,6 +21,7 @@
             <thead class="bg-slate-50">
             <tr>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">Név</th>
+                <th class="px-4 py-3 text-left font-semibold text-slate-600">Csoport</th>
                 <th class="px-4 py-3 text-left font-semibold text-slate-600">Leírás</th>
                 <th class="px-4 py-3 text-right font-semibold text-slate-600">Műveletek</th>
             </tr>
@@ -28,6 +29,8 @@
             <tbody class="divide-y divide-slate-100">
             <tr th:each="exercise : ${exercises}">
                 <td class="px-4 py-3 font-medium text-slate-800" th:text="${exercise.name}">Név</td>
+                <td class="px-4 py-3 text-slate-500"
+                    th:text="${exercise.exerciseGroup != null} ? ${exercise.exerciseGroup.name} : '-'">Csoport</td>
                 <td class="px-4 py-3 text-slate-500" th:text="${exercise.description}">Leírás</td>
                 <td class="px-4 py-3 text-right whitespace-nowrap">
                     <a th:href="@{/exercises/{id}/edit(id=${exercise.id})}"
@@ -39,7 +42,7 @@
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(exercises)}">
-                <td colspan="3" class="px-4 py-6 text-center text-slate-400">Még nincs felvéve gyakorlat.</td>
+                <td colspan="4" class="px-4 py-6 text-center text-slate-400">Még nincs felvéve gyakorlat.</td>
             </tr>
             </tbody>
         </table>

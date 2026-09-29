@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout-admin :: layout(title='Spring Health - Edzés csoportok', content=~{::section})}">
+<head><title>Spring Health - Edzés csoportok</title></head>
+<body>
+
+<section>
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">Edzés csoportok</h1>
+            <p class="text-slate-500">Gyakorlat csoportok kezelése</p>
+        </div>
+        <a href="/exercise-groups/new"
+           class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors">
+            + Új csoport
+        </a>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+            <thead class="bg-slate-50">
+            <tr>
+                <th class="px-4 py-3 text-left font-semibold text-slate-600">Név</th>
+                <th class="px-4 py-3 text-right font-semibold text-slate-600">Műveletek</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+            <tr th:each="exerciseGroup : ${exerciseGroups}">
+                <td class="px-4 py-3 font-medium text-slate-800" th:text="${exerciseGroup.name}">Név</td>
+                <td class="px-4 py-3 text-right whitespace-nowrap">
+                    <a th:href="@{/exercise-groups/{id}/edit(id=${exerciseGroup.id})}"
+                       class="text-emerald-600 hover:text-emerald-800 font-medium mr-3">Szerkesztés</a>
+                    <form th:action="@{/exercise-groups/{id}/delete(id=${exerciseGroup.id})}" method="post" class="inline"
+                          onsubmit="return confirm('Biztosan törlöd a csoportot?');">
+                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Törlés</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(exerciseGroups)}">
+                <td colspan="2" class="px-4 py-6 text-center text-slate-400">Még nincs felvéve csoport.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>
