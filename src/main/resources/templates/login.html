@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(title='Spring Health - Bejelentkezés', content=~{::section})}">
+      th:replace="~{layout-frontend :: layout(title='Spring Health - Bejelentkezés', content=~{::section})}">
 <head><title>Spring Health - Bejelentkezés</title></head>
 <body>
 
-<section class="max-w-md mx-auto">
-    <h1 class="text-2xl font-bold mb-6">Bejelentkezés</h1>
+<section class="max-w-md mx-auto px-6 py-20">
+    <h1 class="text-2xl font-bold mb-6 text-slate-900">Bejelentkezés</h1>
 
     <p th:if="${param.error}" class="mb-4 text-red-600">
         Hibás felhasználónév vagy jelszó.
@@ -16,17 +16,17 @@
 
     <form th:action="@{/login}" method="post" class="space-y-4">
         <div>
-            <label for="username" class="block text-sm font-medium mb-1">Felhasználónév</label>
+            <label for="username" class="block text-sm font-medium mb-1 text-slate-700">Felhasználónév</label>
             <input type="text" id="username" name="username" required autofocus
-                   class="w-full border border-gray-300 rounded px-3 py-2">
+                   class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
         </div>
         <div>
-            <label for="password" class="block text-sm font-medium mb-1">Jelszó</label>
+            <label for="password" class="block text-sm font-medium mb-1 text-slate-700">Jelszó</label>
             <input type="password" id="password" name="password" required
-                   class="w-full border border-gray-300 rounded px-3 py-2">
+                   class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
         </div>
         <button type="submit"
-                class="w-full bg-blue-700 text-white font-medium py-2 rounded hover:bg-blue-800 transition-colors">
+                class="w-full bg-slate-900 text-white font-medium py-2 rounded-lg hover:bg-slate-700 transition-colors">
             Bejelentkezés
         </button>
     </form>
